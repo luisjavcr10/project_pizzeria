@@ -1,7 +1,7 @@
 package com.luiscastillo.pizzeria.service;
 
 import com.luiscastillo.pizzeria.persistence.entity.CustomerEntity;
-import com.luiscastillo.pizzeria.persistence.repository.CustomerRepository;
+import com.luiscastillo.pizzeria.persistence.repository.crudRepository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +19,10 @@ public class CustomerService
 
     public List<CustomerEntity> getAll(){
         return this.customerRepository.findAll();
+    }
+
+    public List<CustomerEntity> getByName(String name) {
+        return this.customerRepository.findByNameContainingIgnoreCase(name);
     }
 
     public CustomerEntity getById(String idCustomer){

@@ -24,6 +24,11 @@ public class CustomerController
         return ResponseEntity.ok(this.customerService.getAll());
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<CustomerEntity>> getByName(@PathVariable String name){
+        return ResponseEntity.ok(this.customerService.getByName(name));
+    }
+
     @GetMapping("/{idCustomer}")
     public ResponseEntity<CustomerEntity> getById(@PathVariable String idCustomer){
         return ResponseEntity.ok(this.customerService.getById(idCustomer));
