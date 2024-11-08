@@ -1,5 +1,6 @@
 package com.luiscastillo.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +37,11 @@ public class OrderEntity
     @Column(name = "additional_notes",length = 200)
     private String additionalNotes;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // Lazy hace que no traigamos nada relacionado con Customer
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+    @JsonIgnore
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, fetch = FetchType.EAGER)//Hace que busque todo lo relacionado con los items
     private List<OrderItemEntity> items;
 }

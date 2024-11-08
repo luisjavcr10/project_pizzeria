@@ -1,5 +1,6 @@
 package com.luiscastillo.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class OrderItemEntity
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    @JsonIgnore //Cuando serializamos el objeto, no toma en cuenta esta opcion, para evitar bucles infinitos al llamar las ordenes
     private OrderEntity order;
 
 }
