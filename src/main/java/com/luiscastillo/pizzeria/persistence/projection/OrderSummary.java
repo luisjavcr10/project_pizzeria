@@ -1,4 +1,12 @@
 package com.luiscastillo.pizzeria.persistence.projection;
 
-public interface OrderSummary {
+import java.time.LocalDateTime;
+
+public interface OrderSummary
+{
+    Integer getIdOrder();
+    String getCustomerName();
+    LocalDateTime getOrderDate();
+    Double getOrderTotal();
+    String getPizzaNames();
 }

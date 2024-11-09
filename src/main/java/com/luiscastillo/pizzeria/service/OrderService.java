@@ -1,13 +1,16 @@
 package com.luiscastillo.pizzeria.service;
 
 import com.luiscastillo.pizzeria.persistence.entity.OrderEntity;
+import com.luiscastillo.pizzeria.persistence.projection.OrderSummary;
 import com.luiscastillo.pizzeria.persistence.repository.crudRepository.OrderRepository;
 import com.luiscastillo.pizzeria.persistence.repository.pagsortRepository.OrderPagSortRepository;
+import com.luiscastillo.pizzeria.service.dto.RandomOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,6 +56,15 @@ public class OrderService {
 
     public List<OrderEntity> getCustomerOrders(String idCustomer) {
         return this.orderRepository.findCustomerOrders(idCustomer);
+    }
+
+    public OrderSummary getOrderSummary(int idOrder) {
+        return this.orderRepository.findSummary(idOrder);
+    }
+
+    @Transactional
+    public boolean saveRandomOrder(RandomOrderDto random) {
+        return this.orderRepository.saveRandomOrder(random.getIdCustomer(),random.getMethod());
     }
 
 }

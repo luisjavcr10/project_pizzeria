@@ -1,7 +1,9 @@
 package com.luiscastillo.pizzeria.web.controller;
 
 import com.luiscastillo.pizzeria.persistence.entity.OrderEntity;
+import com.luiscastillo.pizzeria.persistence.projection.OrderSummary;
 import com.luiscastillo.pizzeria.service.OrderService;
+import com.luiscastillo.pizzeria.service.dto.RandomOrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +59,16 @@ public class OrderController
     @GetMapping("/customer/{idCustomer}")
     public ResponseEntity<List<OrderEntity>> getCustomerOrders(@PathVariable String idCustomer){
         return ResponseEntity.ok(this.orderService.getCustomerOrders(idCustomer));
+    }
+
+    @GetMapping("/summary/{id}")
+    public ResponseEntity<OrderSummary> getOrderSummary(@PathVariable int id){
+        return ResponseEntity.ok(this.orderService.getOrderSummary(id));
+    }
+
+    @PostMapping("/random")
+    public ResponseEntity<Boolean> randomOrder(@RequestBody RandomOrderDto dto){
+        return ResponseEntity.ok(this.orderService.saveRandomOrder(dto));
     }
 
 
