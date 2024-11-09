@@ -2,7 +2,12 @@ package com.luiscastillo.pizzeria.service;
 
 import com.luiscastillo.pizzeria.persistence.entity.CustomerEntity;
 import com.luiscastillo.pizzeria.persistence.repository.crudRepository.CustomerRepository;
+import com.luiscastillo.pizzeria.persistence.repository.pagsortRepository.CustomerPagSortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,22 +16,32 @@ import java.util.List;
 public class CustomerService
 {
     private final CustomerRepository customerRepository;
+    private final CustomerPagSortRepository customerPagSortRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerPagSortRepository customerPagSortRepository) {
         this.customerRepository = customerRepository;
+        this.customerPagSortRepository = customerPagSortRepository;
     }
 
-    public List<CustomerEntity> getAll(){
-        return this.customerRepository.findAll();
+    public Page<CustomerEntity> getAll(int page, int size, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest= PageRequest.of(page,size,sort);
+        return this.customerPagSortRepository.findAll(pageRequest);
     }
 
-    public List<CustomerEntity> getByName(String name) {
-        return this.customerRepository.findByNameContainingIgnoreCase(name);
+    public Page<CustomerEntity> getByName(String name,int page, int size,String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest= PageRequest.of(page,size,sort);
+        return this.customerPagSortRepository.findByNameContainingIgnoreCase(name,pageRequest);
     }
 
     public CustomerEntity getById(String idCustomer){
         return this.customerRepository.findById(idCustomer).orElse(null);
+    }
+
+    public CustomerEntity getByPhone(String phone){
+        return this.customerRepository.findByPhone(phone);
     }
 
     public CustomerEntity save(CustomerEntity customer){

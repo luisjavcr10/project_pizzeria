@@ -24,8 +24,9 @@ public class PizzaService
         this.pizzaPagSortRepository = pizzaPagSortRepository;
     }
 
-    public Page<PizzaEntity> getAll(int page, int size){
-        Pageable pageRequest = PageRequest.of(page,size);
+    public Page<PizzaEntity> getAll(int page, int size, String sortBy, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortBy);
+        Pageable pageRequest = PageRequest.of(page,size,sort);
         return this.pizzaPagSortRepository.findAll(pageRequest);
     }
 

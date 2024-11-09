@@ -3,6 +3,7 @@ package com.luiscastillo.pizzeria.web.controller;
 import com.luiscastillo.pizzeria.persistence.entity.CustomerEntity;
 import com.luiscastillo.pizzeria.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +21,34 @@ public class CustomerController
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerEntity>> getAll(){
-        return ResponseEntity.ok(this.customerService.getAll());
+    public ResponseEntity<Page<CustomerEntity>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection
+    ){
+        return ResponseEntity.ok(this.customerService.getAll(page, size, sortBy, sortDirection));
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<CustomerEntity>> getByName(@PathVariable String name){
-        return ResponseEntity.ok(this.customerService.getByName(name));
+    public ResponseEntity<Page<CustomerEntity>> getByName(
+            @PathVariable String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection
+    ){
+        return ResponseEntity.ok(this.customerService.getByName(name,page,size,sortBy,sortDirection));
     }
 
     @GetMapping("/{idCustomer}")
     public ResponseEntity<CustomerEntity> getById(@PathVariable String idCustomer){
         return ResponseEntity.ok(this.customerService.getById(idCustomer));
+    }
+
+    @GetMapping("/phone/{phone}")
+    public ResponseEntity<CustomerEntity> getByPhone(@PathVariable String phone){
+        return ResponseEntity.ok(this.customerService.getByPhone(phone));
     }
 
     @PostMapping

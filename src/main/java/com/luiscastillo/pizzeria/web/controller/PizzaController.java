@@ -23,15 +23,17 @@ public class PizzaController
     @GetMapping
     public ResponseEntity<Page<PizzaEntity>> getAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size){
-        return ResponseEntity.ok(this.pizzaService.getAll(page, size));
+            @RequestParam(defaultValue = "8") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection){
+        return ResponseEntity.ok(this.pizzaService.getAll(page, size,sortBy,sortDirection));
     }
 
     @GetMapping("/available")
     public ResponseEntity<Page<PizzaEntity>> getAvailable(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "4") int size,
-            @RequestParam(defaultValue = "price") String sortBy,
+            @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "ASC") String sortDirection
     ){
         return ResponseEntity.ok(this.pizzaService.getAvailable(page, size,sortBy,sortDirection));

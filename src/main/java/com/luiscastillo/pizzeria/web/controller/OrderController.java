@@ -2,12 +2,10 @@ package com.luiscastillo.pizzeria.web.controller;
 
 import com.luiscastillo.pizzeria.persistence.entity.OrderEntity;
 import com.luiscastillo.pizzeria.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,25 +21,42 @@ public class OrderController
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderEntity>> getAll(){
-        return ResponseEntity.ok(orderService.getAll());
+    public ResponseEntity<Page<OrderEntity>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return ResponseEntity.ok(orderService.getAll(page,size));
     }
 
     @GetMapping("/today")
-    public ResponseEntity<List<OrderEntity>> getTodayOrders(){
-        return ResponseEntity.ok(orderService.getTodayOrders());
+    public ResponseEntity<Page<OrderEntity>> getTodayOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return ResponseEntity.ok(orderService.getTodayOrders(page,size));
     }
 
     @GetMapping("/outside")
-    public ResponseEntity<List<OrderEntity>> getOutsideOrders(){
-        return ResponseEntity.ok(orderService.getOutsideOrders());
+    public ResponseEntity<Page<OrderEntity>> getOutsideOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return ResponseEntity.ok(orderService.getOutsideOrders(page,size));
     }
 
     @GetMapping("/perDates")
-    public List<OrderEntity> getOrdersPerDates(
+    public ResponseEntity<Page<OrderEntity>> getOrdersPerDates(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        return orderService.getOrdersPerDates(start, end);
+            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return ResponseEntity.ok(orderService.getOrdersPerDates(start, end,page,size));
+    }
+
+    @GetMapping("/customer/{idCustomer}")
+    public ResponseEntity<List<OrderEntity>> getCustomerOrders(@PathVariable String idCustomer){
+        return ResponseEntity.ok(this.orderService.getCustomerOrders(idCustomer));
     }
 
 
