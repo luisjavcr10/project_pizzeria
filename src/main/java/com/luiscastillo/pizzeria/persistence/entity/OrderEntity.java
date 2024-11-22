@@ -45,4 +45,6 @@ public class OrderEntity
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, fetch = FetchType.EAGER)//Hace que busque todo lo relacionado con los items
     @OrderBy("price ASC")// sorts the elements according to the parameter
     private List<OrderItemEntity> items;
+
+    
 }

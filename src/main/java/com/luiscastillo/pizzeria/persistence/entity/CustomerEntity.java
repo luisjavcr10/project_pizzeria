@@ -30,4 +30,13 @@ public class CustomerEntity
 
     @Column(nullable = false, length = 20)
     private String phone;
+
+
+    @Override
+    public String toString() {
+        return "CustomerEntity{" +
+                "idCustomer='" + idCustomer + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

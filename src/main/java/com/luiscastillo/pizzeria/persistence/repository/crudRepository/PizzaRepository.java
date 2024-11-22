@@ -20,11 +20,11 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity,Integer>
     int countByVeganTrue();
 
     @Query(value = """
-                    UPDATE pizza
-                    SET price = :#{#newPizzaPrice.newPrice}
-                    WHERE id_pizza=:#{#newPizzaPrice.pizzaId}
-            """
-            ,nativeQuery = true)
+            UPDATE pizza
+            SET price = :#{#newPizzaPrice.newPrice}
+            WHERE id_pizza = :#{#newPizzaPrice.pizzaId}
+            AND available = true
+            """, nativeQuery = true)
     @Modifying
     //By default, @query can only do select queries and to do update, delete and other modification queries, we need to use @modifying
     void updatePrice(@Param("newPizzaPrice")UpdatePizzaPriceDto newPizzaPrice);

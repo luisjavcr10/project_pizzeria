@@ -54,4 +54,5 @@ public class PizzaEntity extends AuditableEntity implements Serializable
                 ", available=" + available +
                 '}';
     }
+
 }
