@@ -1,7 +1,9 @@
 package com.luiscastillo.pizzeria.web.controller;
 
 import com.luiscastillo.pizzeria.persistence.entity.CustomerEntity;
+import com.luiscastillo.pizzeria.persistence.entity.OrderEntity;
 import com.luiscastillo.pizzeria.service.CustomerService;
+import com.luiscastillo.pizzeria.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,12 @@ import java.util.List;
 public class CustomerController
 {
     private final CustomerService customerService;
+    private final OrderService orderService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, OrderService orderService) {
         this.customerService = customerService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -75,4 +79,12 @@ public class CustomerController
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/customer/{idCustomer}")
+    public ResponseEntity<List<OrderEntity>> getCustomerOrders(@PathVariable String idCustomer){
+        return ResponseEntity.ok(this.orderService.getCustomerOrders(idCustomer));
+    }
+
+
+
 }
